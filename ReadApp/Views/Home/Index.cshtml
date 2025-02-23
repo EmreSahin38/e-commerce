@@ -1,0 +1,60 @@
+﻿@model ProductViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="card card-body my-3">
+    <form asp-action="Index" method="get">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11">
+                    <select name="category" class="form-select"
+                     asp-items="@(new SelectList(Model.Categories, "CategoryId","Name",Model.SelectedCategory))">
+                        <option value="0">Hepsi</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-secondary">Filtrele</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th style="width: 100px;">@Html.DisplayNameFor(m => m.Products[0].ProductId)</th>
+            <th>@Html.DisplayNameFor(m => m.Products[0].Name)</th>
+            <th style="width: 100px;">@Html.DisplayNameFor(m => m.Products[0].Pages)</th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th style="width: 130px;">Settings</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var prd in @Model.Products)
+        {
+            <tr>
+                <td>@prd.ProductId</td>
+                <td>@prd.Name</td>
+                <td>@prd.Pages</td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@prd.ProductId" class="btn btn-primary">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@prd.ProductId" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+}

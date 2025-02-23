@@ -1,0 +1,8 @@
+C:\code\C#\ReadApp\obj\Debug\net6.0\ReadApp.csproj.AssemblyReference.cache
+C:\code\C#\ReadApp\obj\Debug\net6.0\ReadApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\code\C#\ReadApp\obj\Debug\net6.0\ReadApp.AssemblyInfoInputs.cache
+C:\code\C#\ReadApp\obj\Debug\net6.0\ReadApp.AssemblyInfo.cs
+C:\code\C#\ReadApp\obj\Debug\net6.0\ReadApp.csproj.CoreCompileInputs.cache
+C:\code\C#\ReadApp\obj\Debug\net6.0\ReadApp.MvcApplicationPartsAssemblyInfo.cache
+C:\code\C#\ReadApp\obj\Debug\net6.0\ReadApp.RazorAssemblyInfo.cache
+C:\code\C#\ReadApp\obj\Debug\net6.0\ReadApp.RazorAssemblyInfo.cs
