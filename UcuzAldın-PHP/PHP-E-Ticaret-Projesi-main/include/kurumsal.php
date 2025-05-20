@@ -1,0 +1,1 @@
+<?php // Kurumsal sayfası iptal edildi ?>

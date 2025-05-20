@@ -1,0 +1,1 @@
+<?php // Blog sayfası iptal edildi ?>
