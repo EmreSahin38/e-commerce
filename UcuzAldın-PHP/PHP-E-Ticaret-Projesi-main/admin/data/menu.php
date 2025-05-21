@@ -1,8 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="<?=SITE?>" class="brand-link">
-      <img src="<?=SITE?>dist/img/logo.png" alt="UcuzAldın" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
+    <a href="<?=SITE?>" class="brand-link" style="text-align:center;">
+      <img src="<?=SITE?>../img/UcuzAldınLogo.png" alt="UcuzAldın" class="brand-image" style="max-width:160px;height:auto;display:inline-block;">
       <span class="brand-text font-weight-light">UcuzAldın</span>
     </a>
 

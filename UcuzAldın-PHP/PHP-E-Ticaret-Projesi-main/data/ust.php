@@ -1,4 +1,9 @@
 <header class="version_1">
+	<div style="width:100%;text-align:center;padding:10px 0;background:#fff;z-index:1000;position:relative;">
+		<a href="<?= SITE ?>">
+			<img src="<?= SITE ?>img/UcuzAldınLogo.png" alt="UcuzAldın Logo" style="max-width:220px;height:auto;">
+		</a>
+	</div>
 	<div class="layer"></div><!-- Mobile menu overlay mask -->
 	<div class="main_header">
 		<div class="container">
