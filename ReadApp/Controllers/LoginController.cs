@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using ReadApp.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ReadApp.Controllers
 {
@@ -20,12 +25,26 @@ namespace ReadApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string username, string password)
+        public async Task<IActionResult> Index(string username, string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
             if (user != null)
             {
-                // Kullanıcı doğrulandı, yönlendirme yapılabilir
+                // Create claims
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Role, user.Role)
+                };
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true
+                };
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -51,6 +70,14 @@ namespace ReadApp.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+
+        // Add logout action
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index");
         }
     }
 }

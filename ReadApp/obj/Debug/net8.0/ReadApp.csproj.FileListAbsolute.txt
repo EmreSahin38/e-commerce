@@ -183,15 +183,10 @@ C:\code\C#\ReadApp\obj\Debug\net8.0\scopedcss\projectbundle\ReadApp.bundle.scp.c
 C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets.build.json
 C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets.development.json
 C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets\msbuild.ReadApp.Microsoft.AspNetCore.StaticWebAssets.props
-C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets\msbuild.ReadApp.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets\msbuild.build.ReadApp.props
-C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.ReadApp.props
-C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.ReadApp.props
-C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets.pack.json
 C:\code\C#\ReadApp\obj\Debug\net8.0\ReadApp.csproj.Up2Date
 C:\code\C#\ReadApp\obj\Debug\net8.0\ReadApp.dll
 C:\code\C#\ReadApp\obj\Debug\net8.0\refint\ReadApp.dll
 C:\code\C#\ReadApp\obj\Debug\net8.0\ReadApp.pdb
 C:\code\C#\ReadApp\obj\Debug\net8.0\ReadApp.genruntimeconfig.cache
 C:\code\C#\ReadApp\obj\Debug\net8.0\ref\ReadApp.dll
+C:\code\C#\ReadApp\obj\Debug\net8.0\staticwebassets.build.json.cache

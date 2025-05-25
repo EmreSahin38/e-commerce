@@ -27,8 +27,31 @@
                             </li>
                         }
                     </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="navbar-text">@User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Login" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-danger nav-link" style="display:inline;">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Login" asp-action="Index">Login</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
-                @if (Context.Request.Path != "/Login" && Context.Request.Path != "/Login/Register")
+                @{
+                    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                }
+                @if (!(currentController == "Login" && (currentAction == "Index" || currentAction == "Register")))
                 {
                     <form asp-action="Index" method="get" class="d-flex">
                         <input type="search" class="form-control me-2" name="searchString" value="@ViewBag.SearchString" placeholder="Ara">
