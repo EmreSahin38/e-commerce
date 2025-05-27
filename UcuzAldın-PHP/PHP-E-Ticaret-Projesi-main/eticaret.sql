@@ -800,6 +800,7 @@ INSERT INTO `ziyarettarayici` (`ID`, `tarayici`, `ziyaret`, `hiz`) VALUES
 (4, 'diger', 1, NULL),
 (5, 'sayfahizi', 4, '2.86');
 COMMIT;
+UPDATE ayarlar SET url='http://localhost/PHP-E-Ticaret-Projesi-main/' WHERE ID=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
