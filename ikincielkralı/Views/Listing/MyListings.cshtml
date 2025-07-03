@@ -1,0 +1,44 @@
+@model IEnumerable<ikincielkralı.Models.Listing>
+@{
+    ViewData["Title"] = "İlanlarım";
+}
+<h2>İlanlarım</h2>
+@if (Model != null && Model.Any())
+{
+    <div class="row mt-4">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                @if (item.PhotoPaths != null && item.PhotoPaths.Count > 0)
+                {
+                    <img src="@item.PhotoPaths[0]" class="card-img-top" alt="foto" style="height:200px; object-fit:cover; cursor:pointer;" onclick="location.href='@Url.Action("Details", "Listing", new { id = item.Id })'">
+                }
+                else
+                {
+                    <img src="/uploads/araba.jpg" class="card-img-top" alt="foto" style="height:200px; object-fit:cover; cursor:pointer;" onclick="location.href='@Url.Action("Details", "Listing", new { id = item.Id })'">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="@Url.Action("Details", "Listing", new { id = item.Id })" class="text-decoration-none text-dark">@item.Category - @item.Condition</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@item.DamageStatus</h6>
+                    <p class="mb-1"><b>İlan No:</b> @(string.IsNullOrEmpty(item.ListingNumber) ? "-" : item.ListingNumber)</p>
+                    <p class="card-text">@item.Description</p>
+                    <p class="fw-bold">@item.Price.ToString("N0") TL</p>
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id">Düzenle</a>
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Silmek istediğinize emin misiniz?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+}
+else
+{
+    <div class="alert alert-info mt-4">Henüz hiç ilanınız yok.</div>
+}

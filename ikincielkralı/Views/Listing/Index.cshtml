@@ -1,0 +1,128 @@
+@model IEnumerable<ikincielkralı.Models.Listing>
+@{
+    ViewData["Title"] = "İlanlar";
+    var selectedCategory = Context.Request.Query["q"].ToString();
+    int page = 1;
+    int.TryParse(Context.Request.Query["page"], out page);
+    if (page < 1) page = 1;
+    int pageSize = 3;
+    var pagedListings = Model.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+    int totalPages = (int)Math.Ceiling((double)Model.Count() / pageSize);
+    string GetPageUrl(int p)
+    {
+        var qd = new List<string>();
+        if (!string.IsNullOrEmpty(selectedCategory)) qd.Add($"q={selectedCategory}");
+        var condition = Context.Request.Query["condition"].ToString();
+        if (!string.IsNullOrEmpty(condition)) qd.Add($"condition={condition}");
+        var damageStatus = Context.Request.Query["damageStatus"].ToString();
+        if (!string.IsNullOrEmpty(damageStatus)) qd.Add($"damageStatus={damageStatus}");
+        var minPrice = Context.Request.Query["minPrice"].ToString();
+        if (!string.IsNullOrEmpty(minPrice)) qd.Add($"minPrice={minPrice}");
+        var maxPrice = Context.Request.Query["maxPrice"].ToString();
+        if (!string.IsNullOrEmpty(maxPrice)) qd.Add($"maxPrice={maxPrice}");
+        qd.Add($"page={p}");
+        return Context.Request.Path + "?" + string.Join("&", qd);
+    }
+}
+<h2>@(selectedCategory != "" ? selectedCategory + " İlanları" : "İlanlar")</h2>
+
+<form method="get" class="mt-4 border rounded p-3 bg-light">
+    <input type="hidden" name="q" value="@selectedCategory" />
+    <div class="row mb-2 justify-content-end">
+        <div class="col-md-3 d-flex align-items-end order-md-4 gap-2">
+            <button type="submit" class="btn btn-primary w-100">Filtrele</button>
+            <a href="@Url.Action("Index", "Listing")" class="btn btn-secondary w-100">Filtreyi Sıfırla</a>
+        </div>
+        <div class="col-md-3 order-md-3">
+            <label class="form-label">Hasar Durumu</label>
+            <select class="form-select" name="damageStatus">
+                <option value="">Tümü</option>
+                <option value="Temiz">Temiz</option>
+                <option value="Az Hasarlı">Az Hasarlı</option>
+                <option value="Ağır Hasarlı">Ağır Hasarlı</option>
+            </select>
+        </div>
+        <div class="col-md-3 order-md-2">
+            <label class="form-label">Durum</label>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="condition" id="sifir" value="Sıfır">
+                    <label class="form-check-label" for="sifir">Sıfır</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="condition" id="ikinciel" value="İkinci El">
+                    <label class="form-check-label" for="ikinciel">İkinci El</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 order-md-1">
+            <label class="form-label">Fiyat Aralığı</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="minPrice" placeholder="Min" min="0" />
+                <span class="input-group-text">-</span>
+                <input type="number" class="form-control" name="maxPrice" placeholder="Max" min="0" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@if (pagedListings.Any())
+{
+    <div class="row mt-4">
+        @foreach (var item in pagedListings)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100" style="background:#fffbe6;">
+                    @if (item.PhotoPaths != null && item.PhotoPaths.Count > 0)
+                    {
+                        <img src="@item.PhotoPaths[0]" class="card-img-top" alt="foto" style="height:200px; object-fit:cover; cursor:pointer;" onclick="location.href='@Url.Action("Details", "Listing", new { id = item.Id })'">
+                    }
+                    else
+                    {
+                        <img src="/uploads/araba.jpg" class="card-img-top" alt="foto" style="height:200px; object-fit:cover; cursor:pointer;" onclick="location.href='@Url.Action("Details", "Listing", new { id = item.Id })'">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="@Url.Action("Details", "Listing", new { id = item.Id })" class="text-decoration-none text-dark">@item.Category - @item.Condition</a>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.DamageStatus</h6>
+                        <p class="card-text">@item.Description</p>
+                        <p class="fw-bold">@item.Price.ToString("C")</p>
+                        @* Kullanıcı adı *@
+                        <p class="mb-1"><b>Yükleyen:</b> @(item.User != null ? item.User.Username : "-")</p>
+                        @* Araba ilanı için marka/model *@
+                        @if (item.Category == "Araba") {
+                            <p class="mb-1"><b>Marka/Model:</b> @(item.CarBrand ?? "-") / @(item.CarModel ?? "-")</p>
+                        }
+                        @* Ev ilanı için şehir/semt *@
+                        @if (item.Category == "Ev") {
+                            <p class="mb-1"><b>Şehir/Semt:</b> @(item.HouseCity ?? "-") / @(item.HouseDistrict ?? "-")</p>
+                        }
+                        <p class="text-end small" style="color:#d90429;"><b>İlan No:</b> <span class="fw-bold">@item.ListingNumber</span></p>
+                        <p class="mb-1"><b>İlan Tarihi:</b> @(item.CreatedAt.HasValue ? item.CreatedAt.Value.ToString("dd.MM.yyyy") : "-")</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <nav aria-label="Sayfalar">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(page == 1 ? "disabled" : "")">
+                <a class="page-link" href="@(GetPageUrl(page-1))">Önceki</a>
+            </li>
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == page ? "active" : "")">
+                    <a class="page-link" href="@(GetPageUrl(i))">@i</a>
+                </li>
+            }
+            <li class="page-item @(page == totalPages ? "disabled" : "")">
+                <a class="page-link" href="@(GetPageUrl(page+1))">Sonraki</a>
+            </li>
+        </ul>
+    </nav>
+}
+else
+{
+    <div class="alert alert-info mt-4">Kriterlere uygun ilan bulunamadı.</div>
+}

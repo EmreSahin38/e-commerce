@@ -1,0 +1,86 @@
+@model ikincielkralı.Models.Listing
+@{
+    ViewData["Title"] = "İlan Detayı";
+}
+<style>
+    .details-bg {
+        background: #b3e0ff; /* açık deniz mavisi */
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 18px;
+        box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
+        padding: 32px 0;
+    }
+    .details-card {
+        background: #fffbe6; /* açık sarı */
+        border-radius: 12px;
+        padding: 32px 40px;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.06);
+        min-width: 340px;
+        max-width: 520px;
+    }
+    .ilan-no {
+        color: #d90429;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+</style>
+<div class="container mt-4">
+    <div class="details-bg">
+        <div class="row w-100 justify-content-center align-items-center">
+            <div class="col-md-5 mb-3 mb-md-0 d-flex justify-content-center">
+                @if (Model.PhotoPaths != null && Model.PhotoPaths.Count > 0)
+                {
+                    <div id="galleryCarousel" class="carousel slide w-100" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < Model.PhotoPaths.Count; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="@Model.PhotoPaths[i]" class="d-block w-100 img-fluid rounded" alt="foto" style="max-height:400px; object-fit:cover;">
+                                </div>
+                            }
+                        </div>
+                        @if (Model.PhotoPaths.Count > 1)
+                        {
+                            <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Önceki</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Sonraki</span>
+                            </button>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <img src="/uploads/araba.jpg" class="img-fluid rounded" alt="foto" style="max-height:400px; object-fit:cover;">
+                }
+            </div>
+            <div class="col-md-6 details-card">
+                <h2>@Model.Category - @Model.Condition</h2>
+                <h5 class="text-muted">@Model.DamageStatus</h5>
+                <p class="ilan-no">İlan No: @Model.ListingNumber</p>
+                <p><b>Açıklama:</b> @Model.Description</p>
+                <p><b>Fiyat:</b> @Model.Price.ToString("N0") TL</p>
+                <p><b>Eklenme Tarihi:</b> @Model.CreatedAt?.ToString("dd.MM.yyyy")</p>
+                @if (Model.Category == "Araba")
+                {
+                    <p><b>Marka:</b> @Model.CarBrand</p>
+                    <p><b>Model:</b> @Model.CarModel</p>
+                    <p><b>Yıl:</b> @Model.CarYear</p>
+                    <p><b>KM:</b> @Model.CarKm</p>
+                }
+                @if (Model.Category == "Ev")
+                {
+                    <p><b>Şehir:</b> @Model.HouseCity</p>
+                    <p><b>Semt/Mahalle:</b> @Model.HouseDistrict</p>
+                }
+                <a href="javascript:history.back()" class="btn btn-secondary mt-3">Geri Dön</a>
+            </div>
+        </div>
+    </div>
+</div>
